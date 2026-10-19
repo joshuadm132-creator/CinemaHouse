@@ -1,23 +1,61 @@
 @import "tailwindcss";
 
 @theme {
-  /* Colors — defaults, overridden at runtime via <html> style */
+  /* ---------- BRAND ---------- */
   --color-primary: #3b82f6;
   --color-primary-hover: #2563eb;
+  --color-primary-active: #1d4ed8;
+  --color-primary-fg: #ffffff;
   --color-accent: #10b981;
+  --color-accent-hover: #059669;
+  --color-accent-fg: #ffffff;
 
+  /* ---------- SURFACES ---------- */
   --color-background: #ffffff;
   --color-surface: #f9fafb;
+  --color-surface-elevated: #ffffff;
+  --color-surface-sunken: #f3f4f6;
+  --color-ligter-gr: #0f5848;
   --color-border: #e5e7eb;
+  --color-border-strong: #d1d5db;
 
+  /* ---------- TEXT ---------- */
   --color-text: #111827;
   --color-text-muted: #6b7280;
+  --color-text-subtle: #9ca3af;
   --color-text-inverse: #ffffff;
+  --color-text-on-accent: #ffffff;
 
+  /* ---------- HERO ---------- */
   --color-hero-bg: #0a1628;
   --color-hero-text: #ffffff;
-  --color-ligter-gr:#0f5848;
-  /* Fonts — defaults, overridden at runtime */
+  --color-hero-overlay: transparent;
+
+  /* ---------- NAV ---------- */
+  --color-nav-bg: #3b82f6;
+  --color-nav-text: #ffffff;
+  --color-nav-text-muted: #e5e7eb;
+
+  /* ---------- FOOTER ---------- */
+  --color-footer-bg: #111827;
+  --color-footer-text: #f9fafb;
+  --color-footer-text-muted: #9ca3af;
+
+  /* ---------- STATUS ---------- */
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-danger: #ef4444;
+  --color-info: #3b82f6;
+
+  /* ---------- CINEMA ---------- */
+  --color-badge: #d4af37;
+  --color-badge-fg: #0a0a0a;
+  --color-sold-out: #6b7280;
+  --color-seat-available: #374151;
+  --color-seat-selected: #c8102e;
+  --color-seat-taken: #1f1f1f;
+
+  /* ---------- FONTS ---------- */
   --font-body: system-ui, -apple-system, sans-serif;
   --font-heading: system-ui, -apple-system, sans-serif;
 }

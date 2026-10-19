@@ -1,42 +1,30 @@
 // components/FeatureGrid.tsx
 import Link from "next/link";
+import Image from "next/image";
 import Reveal from "@/components/Reveal";
 
 export type FeatureItem = {
   id: string;
   title: string;
   description: string;
-  icon?: string;        // optional short label or emoji — keep it simple
+  /** Short label or emoji — legacy, still works */
+  icon?: string;
+  /** Full-bleed image for the card top — new */
+  image?: string;
+  /** If set, the whole card becomes a link — new */
+  href?: string;
+  /** Small chip in the corner, e.g. "Coming Soon" — new */
+  badge?: string;
 };
 
 type FeatureGridProps = {
-  /** Small uppercase label above the title */
   eyebrow?: string;
-
-  /** Main heading */
   title: string;
-
-  /** Optional paragraph under the heading */
   subtitle?: string;
-
-  /** The grid items */
   items: FeatureItem[];
-
-  /**
-   * Visual style:
-   * - "cards"    → bordered boxes on surface background (default, good for "what we do")
-   * - "list"     → simple rows, no boxes (good for "what we don't do")
-   * - "reasons"  → numbered rows on accent tint (good for "why you need a website")
-   */
   variant?: "cards" | "list" | "reasons";
-
-  /** Columns on desktop: 2, 3, or 4. Defaults per variant. */
   columns?: 2 | 3 | 4;
-
-  /** Optional CTA button below the grid */
   cta?: { text: string; href: string };
-
-  /** Section background: "white" | "gray" | "dark" */
   background?: "white" | "gray" | "dark";
 };
 
@@ -99,12 +87,8 @@ export default function FeatureGrid({
         <div className={`mt-14 grid gap-6 ${gridCols}`}>
           {items.map((item, index) => (
             <Reveal key={item.id} delay={index * 80}>
-              {variant === "cards" && (
-                <CardItem item={item} />
-              )}
-              {variant === "list" && (
-                <ListItem item={item} />
-              )}
+              {variant === "cards" && <CardItem item={item} />}
+              {variant === "list" && <ListItem item={item} />}
               {variant === "reasons" && (
                 <ReasonItem item={item} index={index} />
               )}
@@ -131,21 +115,71 @@ export default function FeatureGrid({
 /* ---------- Variant renderers ---------- */
 
 function CardItem({ item }: { item: FeatureItem }) {
-  return (
-    <div className="h-full p-6 rounded-xl border border-border bg-background shadow-sm hover:shadow-md transition">
-      {item.icon && (
-        <div className="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center font-bold">
-          {item.icon}
+  const inner = (
+    <div
+      className={`
+        group h-full flex flex-col
+        rounded-xl border border-border bg-background overflow-hidden
+        shadow-sm transition
+        ${item.href ? "hover:border-primary/40 hover:shadow-md" : ""}
+      `}
+    >
+      {/* Optional image */}
+      {item.image && (
+        <div className="relative aspect-[4/3] bg-surface overflow-hidden">
+          <Image
+            src={item.image}
+            alt={item.title}
+            fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+          {item.badge && (
+            <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-badge text-badge-fg text-[10px] font-semibold uppercase tracking-wider">
+              {item.badge}
+            </span>
+          )}
         </div>
       )}
-      <h3 className="mt-4 text-lg font-heading font-semibold text-text">
-        {item.title}
-      </h3>
-      <p className="mt-2 text-sm text-text-muted leading-relaxed">
-        {item.description}
-      </p>
+
+      {/* Body */}
+      <div className="flex flex-col flex-1 p-6">
+        {item.icon && !item.image && (
+          <div className="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center font-bold mb-4">
+            {item.icon}
+          </div>
+        )}
+        <h3
+          className={`text-lg font-heading font-semibold text-text ${
+            item.href ? "group-hover:text-primary transition-colors" : ""
+          }`}
+        >
+          {item.title}
+        </h3>
+        <p className="mt-2 text-sm text-text-muted leading-relaxed">
+          {item.description}
+        </p>
+
+        {item.href && (
+          <span
+            aria-hidden="true"
+            className="mt-4 inline-flex items-center text-sm font-medium text-primary gap-1 group-hover:gap-2 transition-all"
+          >
+            Explore <span>→</span>
+          </span>
+        )}
+      </div>
     </div>
   );
+
+  if (item.href) {
+    return (
+      <Link href={item.href} className="block h-full">
+        {inner}
+      </Link>
+    );
+  }
+  return inner;
 }
 
 function ListItem({ item }: { item: FeatureItem }) {

@@ -29,34 +29,34 @@ export const metadata: Metadata = {
    JSON-LD — structured data for Google and AI answer engines.
    ============================================================ */
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "ProfessionalService",
-  name: business.name,
-  description: business.description,
-  url: "https://gschem.co.zw",
-  telephone: business.contact.phone,
-  email: business.contact.email,
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: "14 Lisburn Road",
-    addressLocality: "Harare",
-    addressCountry: "ZW",
-  },
-  areaServed: {
-    "@type": "Country",
-    name: "Zimbabwe",
-  },
-  serviceType: [
-    "Paints and Coatings",
-    "Adhesives",
-    "Sealants",
-    "Roofing Waterproofing",
-    "Automotive Solvents",
-    "Wood Preservatives",
-  ],
-  sameAs: business.contact.socials?.map((s) => s.href) ?? [],
-};
+// const jsonLd = {
+//   "@context": "https://schema.org",
+//   "@type": "ProfessionalService",
+//   name: business.name,
+//   description: business.description,
+//   url: "https://gschem.co.zw",
+//   telephone: business.contact.phone,
+//   email: business.contact.email,
+//   address: {
+//     "@type": "PostalAddress",
+//     streetAddress: "14 Lisburn Road",
+//     addressLocality: "Harare",
+//     addressCountry: "ZW",
+//   },
+//   areaServed: {
+//     "@type": "Country",
+//     name: "Zimbabwe",
+//   },
+//   serviceType: [
+//     "Paints and Coatings",
+//     "Adhesives",
+//     "Sealants",
+//     "Roofing Waterproofing",
+//     "Automotive Solvents",
+//     "Wood Preservatives",
+//   ],
+//   sameAs: business.contact.socials?.map((s) => s.href) ?? [],
+// };
 
 export default function RootLayout({
   children,
@@ -70,10 +70,10 @@ export default function RootLayout({
       style={themeToCssVars(business.theme)}
     >
       <body className="min-h-full flex flex-col">
-        <script
+        {/* <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
+        /> */}
         <BasketProvider storageKey={`basket:${business.name}`}>
           <Nav />
           {children}

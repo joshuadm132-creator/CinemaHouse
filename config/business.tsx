@@ -1,2 +1,2 @@
 // config/business.ts
-export { GSChemicals as business } from "./businesses/gs-chemicals";
+export { Cinema as business } from "./businesses/cinema";

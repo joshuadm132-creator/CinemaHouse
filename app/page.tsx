@@ -1,72 +1,50 @@
 // app/page.tsx
-import type { Metadata } from "next";
 import { business } from "@/config/business";
-import CatalogueHero from "@/components/catalogue-hero";
-import CategoryStrip from "@/components/category-strip";
-import FeaturedProducts from "@/components/featured-products";
-import CatalogueAbout from "@/components/catalogue-about";
-import Testimonials from "@/components/testimonials";
-import PartnersStrip from "@/components/partners-strip";
-
-export const metadata: Metadata = {
-  title: "TECHIAD Products | Paints, Coatings & Sealants in Zimbabwe",
-  description:
-    "G & S Chemicals Agencies manufactures and distributes TECHIAD paints, coatings, adhesives, and sealants across Zimbabwe. Browse our full range.",
-  alternates: { canonical: "/" },
-};
+import CinemaHero from "@/components/CinemaHero";
+import ShowtimeList from "@/components/ShowtimeList";
+import FeatureGrid from "@/components/FeatureGrid";
 
 export default function HomePage() {
+  const cinema = business as any;
+  const { nowShowing, hero, promotions } = cinema;
+
+  const featuredMovie = nowShowing.movies.find(
+    (m: any) => m.id === hero.featuredMovieId
+  );
+
   return (
-    <main>
-      <CatalogueHero
-        eyebrow={business.hero.eyebrow}
-        headline={business.hero.headline}
-        description={business.hero.description}
-        primaryCta={business.hero.primaryCta}
-        secondaryCta={business.hero.secondaryCta}
-        image={business.hero.image}
-      />
+    <>
+      {featuredMovie && (
+        <CinemaHero
+          movie={featuredMovie}
+          badge={hero.badge}
+          ctaLabel={hero.ctaLabel}
+        />
+      )}
 
-      <CategoryStrip
-        title={business.categoriesHeading.title}
-        subtitle={business.categoriesHeading.subtitle}
-        icons={{
-          "paints-coatings": "🎨",
-          "adhesives": "🔗",
-          "castings-general-sealants": "🧱",
-          "currants": "🪵",
-          "roofing-flooring-sealants": "🏠",
-          "solvents-automotive": "🚗",
-        }}
-      />
+      <main className="max-w-7xl mx-auto px-6 md:px-10 py-10">
+        <ShowtimeList
+          title={nowShowing.title}
+          dates={nowShowing.dates}
+          movies={nowShowing.movies}
+        />
+      </main>
 
-      <FeaturedProducts
-        title={business.featuredHeading.title}
-        subtitle={business.featuredHeading.subtitle}
-        ctaText={business.featuredHeading.ctaText}
-        ctaHref={business.featuredHeading.ctaHref}
+      <FeatureGrid
+        eyebrow={promotions.title}
+        title=""
+        items={promotions.cards.map((card: any) => ({
+          id: card.href,
+          title: card.title,
+          description: card.subtitle,
+          image: card.image,
+          href: card.href,
+          badge: card.badge,
+        }))}
+        variant="cards"
+        columns={3}
+        background="gray"
       />
-
-      <CatalogueAbout
-        eyebrow={business.about.eyebrow}
-        title={business.about.title}
-        paragraphs={business.about.paragraphs}
-        cta={business.about.cta}
-        image={business.about.image}
-        awardCaption={business.about.awardCaption}
-      />
-
-      <Testimonials
-        title={business.testimonials.title}
-        subtitle={business.testimonials.subtitle}
-        items={business.testimonials.items}
-      />
-
-      <PartnersStrip
-        title={business.partners.title}
-        subtitle={business.partners.subtitle}
-        logos={business.partners.logos}
-      />
-    </main>
+    </>
   );
 }

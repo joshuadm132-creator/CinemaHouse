@@ -39,12 +39,12 @@ export default function Navbar() {
               >
                 {item?.label}
               </Link>
-            ))}
+            ))} 
+
           </div>
 
-            <div className="flex items-center gap-2">
-            <BasketButton variant="header" />
-
+          <div className="flex items-center gap-2">
+           
             <button
               type="button"
               aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
