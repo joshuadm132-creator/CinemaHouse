@@ -22,7 +22,7 @@ export default function Navbar() {
               alt={`${business.name} Logo`}
               width={40}
               height={40}
-              className="h-10 w-auto object-contain"
+              className="h-15 w-auto object-contain"
               priority
             />
             <span className="text-2xl md:text-3xl font-heading font-bold text-text">
